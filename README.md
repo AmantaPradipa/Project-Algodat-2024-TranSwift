@@ -1,1 +1,0 @@
-# Project-Algodat-2024-TranSwift
