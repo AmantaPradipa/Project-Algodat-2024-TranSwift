@@ -1,46 +1,61 @@
 public class Main {
     public static void main(String[] args) {
-        ListKendaraan Kendaraan = new ListKendaraan();
-        ListTempat Tempat = new ListTempat();
-        ListTiket Tiket = new ListTiket(Kendaraan, Tempat);
+        ListKendaraan kendaraan = new ListKendaraan();
+        ListTempat tempat = new ListTempat();
+        ListTiket tiket = new ListTiket(kendaraan, tempat);
         Graph graph = new Graph(12);
-        // Kendaraan.addKendaraan("Kereta A1", true, 100, 200);
-        // Kendaraan.addKendaraan("Kereta A2", true, 100, 200);
-        // Kendaraan.addKendaraan("Bus B1", true, 30, 80);
-        // Kendaraan.addKendaraan("Bus B2", true, 30, 80);
-        // Kendaraan.addKendaraan("Bus B3", true, 30, 80);
-        // Kendaraan.addKendaraan("Taksi C1", false, 4, 30);
-        // Kendaraan.addKendaraan("Taksi C2", false, 4, 30);
-        // Kendaraan.addKendaraan("Taksi C3", false, 4, 30);
-        // Kendaraan.addKendaraan("Taksi C4", false, 4, 30);
-        // Kendaraan.addKendaraan("Taksi C5", false, 4, 30);
-        // Kendaraan.displayKendaraan();
+        StackBarang barang = new StackBarang();
+        QueuePenumpang penumpang = new QueuePenumpang(barang, tiket);
 
-        // Tempat.addTempat("Tokyo");
-        // Tempat.addTempat("Kyoto");
-        // Tempat.addTempat("Osaka");
-        // Tempat.addTempat("Hiroshima");
-        // Tempat.addTempat("Nagoya");
-        // Tempat.addTempat("Sapporo");
-        // Tempat.addTempat("Fukuoka");
-        // Tempat.addTempat("Nara");
-        // Tempat.addTempat("Kobe");
-        // Tempat.addTempat("Hakone");
-        // Tempat.addTempat("Yokohama");
-        // Tempat.addTempat("Sendai");
-        // Tempat.displayTempat();
+        kendaraan.addKendaraan("Kereta A1", true, 100, 200);
+        // kendaraan.addKendaraan("Kereta A2", true, 100, 200);
+        // kendaraan.addKendaraan("Bus B1", true, 30, 80);
+        // kendaraan.addKendaraan("Bus B2", true, 30, 80);
+        // kendaraan.addKendaraan("Bus B3", true, 30, 80);
+        // kendaraan.addKendaraan("Taksi C1", false, 4, 30);
+        // kendaraan.addKendaraan("Taksi C2", false, 4, 30);
+        // kendaraan.addKendaraan("Taksi C3", false, 4, 30);
+        // kendaraan.addKendaraan("Taksi C4", false, 4, 30);
+        // kendaraan.addKendaraan("Taksi C5", false, 4, 30);
+        // kendaraan.displaykendaraan();
 
-        // Tiket.addTiket("A11", "Tokyo", "Kyoto", 200000, "Kereta A1");
-        // Tiket.addTiket("A12", "Tokyo", "Kyoto", 200000, "Kereta A1");
-        // Tiket.addTiket("A13", "Tokyo", "Kyoto", 200000, "Kereta A1");
-        // Tiket.addTiket("A14", "Tokyo", "Kyoto", 200000, "Kereta A1");
-        // Tiket.addTiket("A15", "Tokyo", "Kyoto", 200000, "Kereta A1");
-        // Tiket.addTiket("A21", "Osaka", "Kyoto", 100000, "Kereta A2");
-        // Tiket.addTiket("A22", "Osaka", "Kyoto", 100000, "Kereta A2");
-        // Tiket.addTiket("A23", "Osaka", "Kyoto", 100000, "Kereta A2");
-        // Tiket.addTiket("A24", "Osaka", "Kyoto", 100000, "Kereta A2");
-        // Tiket.addTiket("A25", "Osaka", "Kyoto", 100000, "Kereta A2");
-        // Tiket.displayTiket();
+        tempat.addTempat("Tokyo");
+        tempat.addTempat("Kyoto");
+        // tempat.addTempat("Osaka");
+        // tempat.addTempat("Hiroshima");
+        // tempat.addTempat("Nagoya");
+        // tempat.addTempat("Sapporo");
+        // tempat.addTempat("Fukuoka");
+        // tempat.addTempat("Nara");
+        // tempat.addTempat("Kobe");
+        // tempat.addTempat("Hakone");
+        // tempat.addTempat("Yokohama");
+        // tempat.addTempat("Sendai");
+        // tempat.displayTempat();
+
+        tiket.addTiket("A11", "Tokyo", "Kyoto", 200000, "Kereta A1");
+        tiket.addTiket("A12", "Tokyo", "Kyoto", 200000, "Kereta A1");
+        // tiket.addTiket("A13", "Tokyo", "Kyoto", 200000, "Kereta A1");
+        // tiket.addTiket("A14", "Tokyo", "Kyoto", 200000, "Kereta A1");
+        // tiket.addTiket("A15", "Tokyo", "Kyoto", 200000, "Kereta A1");
+        // tiket.addTiket("A21", "Osaka", "Kyoto", 100000, "Kereta A2");
+        // tiket.addTiket("A22", "Osaka", "Kyoto", 100000, "Kereta A2");
+        // tiket.addTiket("A23", "Osaka", "Kyoto", 100000, "Kereta A2");
+        // tiket.addTiket("A24", "Osaka", "Kyoto", 100000, "Kereta A2");
+        // tiket.addTiket("A25", "Osaka", "Kyoto", 100000, "Kereta A2");
+        tiket.displayTiket();
+
+        barang.push("Tas", 1.5);
+        barang.push("Koper", 3.5);
+        penumpang.enqueue("Budi", 250000, "Tas");
+        penumpang.enqueue("Rudi", 300000, "Koper");
+        penumpang.displayPenumpang();
+
+        penumpang.pesanTiket("Budi", "A11");
+        penumpang.pesanTiket("Rudi", "A12");
+
+        penumpang.pesanTiket("Rano", "A11");
+
         graph.addVertex("Tokyo");
         graph.addVertex("Kyoto");
         graph.addVertex("Osaka");
@@ -74,43 +89,30 @@ public class Main {
         graph.addEdge("Sendai", "Kyoto", 550, true);
 
         // Buat graph baru berdasarkan vertex yang sama tetapi tanpa edges
-        Graph newGraph = new Graph(graph);  // Graph baru tidak menyalin edges
-        newGraph.addEdge("Tokyo", "Osaka", 513, false);  // Undirected (false)
-        newGraph.addEdge("Tokyo", "Kyoto", 457, false);  // Undirected (false)
-        newGraph.addEdge("Osaka", "Hiroshima", 330, false);  // Undirected (false)
-        newGraph.addEdge("Osaka", "Kobe", 30, false);  // Undirected (false)
-        newGraph.addEdge("Hiroshima", "Sapporo", 1100, false);  // Undirected (false)
-        newGraph.addEdge("Kobe", "Tokyo", 511, false);  // Undirected (false)
-        newGraph.addEdge("Osaka", "Nara", 42, false);  // Undirected (false)
-        newGraph.addEdge("Kyoto", "Nagoya", 136, false);  // Undirected (false)
-        newGraph.addEdge("Kyoto", "Sapporo", 1000, false);  // Undirected (false)
-        newGraph.addEdge("Nagoya", "Yokohama", 290, false);  // Undirected (false)
-        newGraph.addEdge("Nagoya", "Sapporo", 1010, false);  // Undirected (false)
-        newGraph.addEdge("Yokohama", "Tokyo", 29, false);  // Undirected (false)
-        newGraph.addEdge("Sapporo", "Nara", 1160, false);  // Undirected (false)
-        newGraph.addEdge("Sapporo", "Kobe", 1100, false);  // Undirected (false)
-        newGraph.addEdge("Nara", "Hakone", 500, false);  // Undirected (false)
-        newGraph.addEdge("Hakone", "Sendai", 350, false);  // Undirected (false)
-        newGraph.addEdge("Sendai", "Kyoto", 550, false);  // Undirected (false)
+        Graph newGraph = new Graph(graph); // Graph baru tidak menyalin edges
+        newGraph.addEdge("Tokyo", "Osaka", 513, false); // Undirected (false)
+        newGraph.addEdge("Tokyo", "Kyoto", 457, false); // Undirected (false)
+        newGraph.addEdge("Osaka", "Hiroshima", 330, false); // Undirected (false)
+        newGraph.addEdge("Osaka", "Kobe", 30, false); // Undirected (false)
+        newGraph.addEdge("Hiroshima", "Sapporo", 1100, false); // Undirected (false)
+        newGraph.addEdge("Kobe", "Tokyo", 511, false); // Undirected (false)
+        newGraph.addEdge("Osaka", "Nara", 42, false); // Undirected (false)
+        newGraph.addEdge("Kyoto", "Nagoya", 136, false); // Undirected (false)
+        newGraph.addEdge("Kyoto", "Sapporo", 1000, false); // Undirected (false)
+        newGraph.addEdge("Nagoya", "Yokohama", 290, false); // Undirected (false)
+        newGraph.addEdge("Nagoya", "Sapporo", 1010, false); // Undirected (false)
+        newGraph.addEdge("Yokohama", "Tokyo", 29, false); // Undirected (false)
+        newGraph.addEdge("Sapporo", "Nara", 1160, false); // Undirected (false)
+        newGraph.addEdge("Sapporo", "Kobe", 1100, false); // Undirected (false)
+        newGraph.addEdge("Nara", "Hakone", 500, false); // Undirected (false)
+        newGraph.addEdge("Hakone", "Sendai", 350, false); // Undirected (false)
+        newGraph.addEdge("Sendai", "Kyoto", 550, false); // Undirected (false)
+
         // Jalankan Dijkstra dari vertex sumber ke tujuan
-        graph.dijkstra("Osaka", "Yokohama");
-        graph.dijkstra("Yokohama", "Osaka");
-        newGraph.dijkstra("Osaka", "Yokohama");
-        newGraph.dijkstra("Yokohama", "Osaka");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        // graph.dijkstra("Osaka", "Yokohama");
+        // graph.dijkstra("Yokohama", "Osaka");
+        // newGraph.dijkstra("Osaka", "Yokohama");
+        // newGraph.dijkstra("Yokohama", "Osaka");
 
     }
 }

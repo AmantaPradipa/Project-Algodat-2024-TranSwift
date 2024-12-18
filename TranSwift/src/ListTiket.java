@@ -9,7 +9,8 @@ public class ListTiket {
         this.head = null;
     }
 
-    public void addTiket(String label, String tempatAsal, String tempatTujuan, double hargaTiket, String jenisKendaraan) {
+    public void addTiket(String label, String tempatAsal, String tempatTujuan, double hargaTiket,
+            String jenisKendaraan) {
         if (jenisKendaraan == null || tempatAsal == null || tempatTujuan == null) {
             System.out.println("Informasi tidak lengkap.");
             return;
@@ -41,7 +42,7 @@ public class ListTiket {
         }
     }
 
-    private Tiket searchTiket(String label) {
+    public Tiket searchTiket(String label) {
         Tiket current = head;
         while (current != null) {
             if (current.label.equals(label)) {
@@ -90,8 +91,8 @@ public class ListTiket {
         Tiket current = head;
         while (current != null) {
             System.out.println("| Label: " + current.label);
-            System.out.println("| Asal: " + current.tempatAsal);
-            System.out.println("| Tujuan: " + current.tempatTujuan);
+            System.out.println("| Asal: " + current.tempatAsal.namaTempat);
+            System.out.println("| Tujuan: " + current.tempatTujuan.namaTempat);
             System.out.println("| Harga Tiket: Rp" + current.hargaTiket);
             System.out.println("| Kendaraan: " + current.kendaraan.jenis);
             System.out.println("==================================================");
