@@ -1,7 +1,6 @@
 class Barang {
     String namaBarang;
     double beratBarang;
-
     Barang next;
 
     public Barang(String namaBarang, double beratBarang) {

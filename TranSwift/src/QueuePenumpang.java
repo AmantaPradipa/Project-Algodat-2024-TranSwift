@@ -1,14 +1,22 @@
 public class QueuePenumpang {
    Penumpang front, rear;
+   StackBarang stackBarang;
 
-   public QueuePenumpang() {
-      front = null;
-      rear = null;
+   public QueuePenumpang(StackBarang stackBarang) {
+      this.stackBarang = stackBarang;
+      this.front = null;
+      this.rear = null;
    }
 
-   public void enqueue(String nama, double uang, String namaBarang, double beratBarang) {
-      Barang newBarang = new Barang(namaBarang, beratBarang);
-      Penumpang newPenumpang = new Penumpang(nama, uang, newBarang);
+   public void enqueue(String nama, int uang, String namaBarang) {
+      Barang barangPenumpang = stackBarang.searchBarang(namaBarang);
+      
+      if (barangPenumpang == null) {
+         System.out.println("Barang tidak ditemukan.");
+         return;
+      }
+
+      Penumpang newPenumpang = new Penumpang(nama, uang, barangPenumpang);
 
       if (front == null && rear == null) {
          front = newPenumpang;
@@ -22,6 +30,7 @@ public class QueuePenumpang {
 
    public void dequeue() {
       if (front == null) {
+         System.out.println("Antrian kosong!");
          return;
       }
 

@@ -21,6 +21,21 @@ public class StackBarang {
       top = top.next;
    }
 
+   public Barang searchBarang(String namaBarang) {
+      Barang temp = top;
+
+      while (temp != null) {
+         if (temp.namaBarang.equalsIgnoreCase(namaBarang)) {
+            return temp;
+         }
+         temp = temp.next;
+      }
+
+      System.out.println("Barang dengan nama '" + namaBarang + "' tidak ditemukan.");
+      return null;
+   }
+
+
    public void clearStack() {
       if (top == null) {
          return;
