@@ -1,11 +1,13 @@
 class Tiket {
+    String label;
     Tempat tempatAsal;
     Tempat tempatTujuan;
     double hargaTiket;
     Kendaraan kendaraan;
     Tiket next;
 
-    public Tiket(Tempat tempatAsal, Tempat tempatTujuan, double hargaTiket, Kendaraan kendaraan) {
+    public Tiket(String label, Tempat tempatAsal, Tempat tempatTujuan, double hargaTiket, Kendaraan kendaraan) {
+        this.label = label;
         this.tempatAsal = tempatAsal;
         this.tempatTujuan = tempatTujuan;
         this.hargaTiket = hargaTiket;
