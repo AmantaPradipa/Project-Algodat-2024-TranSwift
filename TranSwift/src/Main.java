@@ -19,8 +19,8 @@ public class Main {
         // kendaraan.addKendaraan("Taksi C5", false, 4, 30);
         // kendaraan.displaykendaraan();
 
-        tempat.addTempat("Tokyo");
-        tempat.addTempat("Kyoto");
+        // tempat.addTempat("Tokyo");
+        // tempat.addTempat("Kyoto");
         // tempat.addTempat("Osaka");
         // tempat.addTempat("Hiroshima");
         // tempat.addTempat("Nagoya");
@@ -33,8 +33,8 @@ public class Main {
         // tempat.addTempat("Sendai");
         // tempat.displayTempat();
 
-        tiket.addTiket("A11", "Tokyo", "Kyoto", 200000, "Kereta A1");
-        tiket.addTiket("A12", "Tokyo", "Kyoto", 200000, "Kereta A1");
+        // tiket.addTiket("A11", "Tokyo", "Kyoto", 200000, "Kereta A1");
+        // tiket.addTiket("A12", "Tokyo", "Kyoto", 200000, "Kereta A1");
         // tiket.addTiket("A13", "Tokyo", "Kyoto", 200000, "Kereta A1");
         // tiket.addTiket("A14", "Tokyo", "Kyoto", 200000, "Kereta A1");
         // tiket.addTiket("A15", "Tokyo", "Kyoto", 200000, "Kereta A1");
@@ -43,18 +43,18 @@ public class Main {
         // tiket.addTiket("A23", "Osaka", "Kyoto", 100000, "Kereta A2");
         // tiket.addTiket("A24", "Osaka", "Kyoto", 100000, "Kereta A2");
         // tiket.addTiket("A25", "Osaka", "Kyoto", 100000, "Kereta A2");
-        tiket.displayTiket();
+        // tiket.displayTiket();
 
-        barang.push("Tas", 1.5);
-        barang.push("Koper", 3.5);
-        penumpang.enqueue("Budi", 250000, "Tas");
-        penumpang.enqueue("Rudi", 300000, "Koper");
-        penumpang.displayPenumpang();
+        // barang.push("Tas", 1.5);
+        // barang.push("Koper", 3.5);
+        // penumpang.enqueue("Budi", 250000, "Tas");
+        // penumpang.enqueue("Rudi", 300000, "Koper");
+        // penumpang.displayPenumpang();
 
-        penumpang.pesanTiket("Budi", "A11");
-        penumpang.pesanTiket("Rudi", "A12");
+        // penumpang.pesanTiket("Budi", "A11");
+        // penumpang.pesanTiket("Rudi", "A12");
 
-        penumpang.pesanTiket("Rano", "A11");
+        // penumpang.pesanTiket("Rano", "A11");
 
         graph.addVertex("Tokyo");
         graph.addVertex("Kyoto");
@@ -109,10 +109,10 @@ public class Main {
         newGraph.addEdge("Sendai", "Kyoto", 550, false); // Undirected (false)
 
         // Jalankan Dijkstra dari vertex sumber ke tujuan
-        // graph.dijkstra("Osaka", "Yokohama");
-        // graph.dijkstra("Yokohama", "Osaka");
-        // newGraph.dijkstra("Osaka", "Yokohama");
-        // newGraph.dijkstra("Yokohama", "Osaka");
+        graph.dijkstra("Osaka", "Yokohama");
+        graph.dijkstra("Yokohama", "Osaka");
+        newGraph.dijkstra("Osaka", "Yokohama");
+        newGraph.dijkstra("Yokohama", "Osaka");
 
     }
 }

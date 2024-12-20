@@ -77,9 +77,9 @@ class Graph {
             int u = getMinimumVertex(distances, visited);
             visited[u] = true;
 
-            Node temp = adjacencyList[u].getHead();
+            Tempat temp = adjacencyList[u].getHead();
             while (temp != null) {
-                int v = getVertexIndex(temp.vertex);
+                int v = getVertexIndex(temp.namaTempat);
                 int weight = temp.weight;
 
                 if (!visited[v] && distances[u] != Integer.MAX_VALUE && distances[u] + weight < distances[v]) {

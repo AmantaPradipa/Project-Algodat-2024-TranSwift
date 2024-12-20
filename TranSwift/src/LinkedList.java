@@ -1,20 +1,20 @@
 class LinkedList {
-    Node head;
+    Tempat head;
 
-    public void add(String vertex, int weight) {
-        Node newNode = new Node(vertex, weight);
+    public void add(String namaTempat, int weight) {
+        Tempat newTempat = new Tempat(namaTempat, weight);
         if (head == null) {
-            head = newNode;
+            head = newTempat;
         } else {
-            Node temp = head;
+            Tempat temp = head;
             while (temp.next != null) {
                 temp = temp.next;
             }
-            temp.next = newNode;
+            temp.next = newTempat;
         }
     }
 
-    public Node getHead() {
+    public Tempat getHead() {
         return head;
     }
 }
