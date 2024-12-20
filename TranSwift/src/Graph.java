@@ -1,128 +1,150 @@
-class Graph {
-    int vertices = 12;  // Jumlah vertex tetap
-    LinkedList[] adjacencyList;
-    String[] vertexNames;
-    int vertexCount;
+public class Graph {
+    ListTempat listTempat;
+    ListJalur listJalur;
 
-    public Graph(int initialVertexCount) {
-        adjacencyList = new LinkedList[initialVertexCount];
-        vertexNames = new String[initialVertexCount];
-        vertexCount = 0;
-        for (int i = 0; i < initialVertexCount; i++) {
-            adjacencyList[i] = new LinkedList();  // Setiap linked list kosong untuk edges
-        }
+    public Graph() {
+        listTempat = new ListTempat();
+        listJalur = new ListJalur(listTempat);
     }
 
-    // Konstruktor untuk membuat Graph baru berdasarkan vertex yang sudah ada (tanpa edges)
-    public Graph(Graph existingGraph) {
-        this(existingGraph.vertices);  // Inisialisasi adjacencyList dengan jumlah vertex yang ada pada graph yang sudah ada
-        this.vertexCount = existingGraph.vertexCount;
-
-        // Menyalin vertex
-        for (int i = 0; i < vertexCount; i++) {
-            this.vertexNames[i] = existingGraph.vertexNames[i];  // Salin nama vertex tanpa menyalin edges
-        }
+    public void addVertex(String namaTempat) {
+        listTempat.addTempat(namaTempat);
     }
 
-    public void addVertex(String name) {
-        if (vertexCount >= vertices) {
-            System.out.println("Error: Tidak dapat menambah vertex, batas maksimum tercapai.");
-            return;
-        }
-        vertexNames[vertexCount++] = name;
+    public void searchVertex(String namaTempat) {
+        listTempat.searchTempat(namaTempat);
     }
 
-    private int getVertexIndex(String name) {
-        for (int i = 0; i < vertexCount; i++) {
-            if (vertexNames[i].equals(name)) {
-                return i;
-            }
-        }
-        return -1;
-    }
+    public void addEdge(String tempatAsal, String tempatTujuan, double jarak, boolean isDirected) {
+        listJalur.addJalur(tempatAsal, tempatTujuan, jarak, isDirected);
 
-    public void addEdge(String source, String destination, int weight, boolean isDirected) {
-        int srcIndex = getVertexIndex(source);
-        int destIndex = getVertexIndex(destination);
-        if (srcIndex == -1 || destIndex == -1) {
-            System.out.println("Error: Nama vertex tidak ditemukan.");
-            return;
-        }
-        adjacencyList[srcIndex].add(destination, weight);
         if (!isDirected) {
-            adjacencyList[destIndex].add(source, weight);
+            listJalur.addJalur(tempatTujuan, tempatAsal, jarak, false);
         }
     }
 
-    public void dijkstra(String startVertex, String endVertex) {
-        int startIndex = getVertexIndex(startVertex);
-        int endIndex = getVertexIndex(endVertex);
-        if (startIndex == -1 || endIndex == -1) {
-            System.out.println("Error: Vertex tidak ditemukan.");
+    public void removeVertex(String namaTempat) {
+        Tempat tempat = listTempat.searchTempat(namaTempat);
+        if (tempat == null) {
             return;
         }
 
-        int[] distances = new int[vertices];
-        boolean[] visited = new boolean[vertices];
-        int[] previous = new int[vertices];
-
-        for (int i = 0; i < vertices; i++) {
-            distances[i] = Integer.MAX_VALUE;
-            visited[i] = false;
-            previous[i] = -1;
+        Jalur current = listJalur.head;
+        while (current != null) {
+            if (current.tempatAsal == tempat || current.tempatTujuan == tempat) {
+                listJalur.removeJalur(current.tempatAsal.namaTempat, current.tempatTujuan.namaTempat);
+            }
+            current = current.next;
         }
-        distances[startIndex] = 0;
 
-        for (int i = 0; i < vertexCount - 1; i++) {
-            int u = getMinimumVertex(distances, visited);
-            visited[u] = true;
+        listTempat.removeTempat(namaTempat);
+    }
 
-            Tempat temp = adjacencyList[u].getHead();
-            while (temp != null) {
-                int v = getVertexIndex(temp.namaTempat);
-                int weight = temp.weight;
+    public void removeEdge(String tempatAsal, String tempatTujuan) {
+        listJalur.removeJalur(tempatAsal, tempatTujuan);
+    }
 
-                if (!visited[v] && distances[u] != Integer.MAX_VALUE && distances[u] + weight < distances[v]) {
-                    distances[v] = distances[u] + weight;
-                    previous[v] = u;
+    public void displayVertices() {
+        listTempat.displayTempat();
+    }
+
+    public void displayEdges() {
+        listJalur.displayJalur();
+    }
+
+    public boolean hasEdge(String tempatAsal, String tempatTujuan) {
+        Jalur jalur = listJalur.searchJalur(tempatAsal, tempatTujuan);
+        return jalur != null;
+    }
+
+    public boolean hasVertex(String namaTempat) {
+        Tempat tempat = listTempat.searchTempat(namaTempat);
+        return tempat != null;
+    }
+    
+    public void dijkstra(String tempatAsal, String tempatTujuan, boolean isDirected) {
+        Tempat asal = listTempat.searchTempat(tempatAsal);
+        Tempat tujuan = listTempat.searchTempat(tempatTujuan);
+    
+        if (asal == null) {
+            System.out.println("Tempat asal tidak ditemukan!");
+            return;
+        }
+        if (tujuan == null) {
+            System.out.println("Tempat tujuan tidak ditemukan!");
+            return;
+        }
+    
+        // Inisialisasi jarak tempat asal
+        asal.jarak = 0;
+        listTempat.resetVisited();
+    
+        while (true) {
+            // Ambil tempat dengan jarak terpendek yang belum dikunjungi
+            Tempat current = listTempat.getNextUnvisitedTempat();
+            if (current == null) {
+                break; // Tidak ada tempat lagi yang bisa dikunjungi
+            }
+    
+            current.visited = true;
+    
+            // Perbarui jarak untuk tempat yang terhubung dengan tempat saat ini
+            Jalur jalur = listJalur.head;
+            while (jalur != null) {
+                if (jalur.tempatAsal.equals(current)) {
+                    Tempat tujuanTemp = jalur.tempatTujuan;
+                    if (!tujuanTemp.visited && current.jarak + jalur.jarak < tujuanTemp.jarak) {
+                        tujuanTemp.jarak = current.jarak + jalur.jarak;
+                        tujuanTemp.prev = current; // Catat tempat sebelumnya
+                    }
                 }
-                temp = temp.next;
+                jalur = jalur.next;
+            }
+    
+            // Jika tujuan telah ditemukan, hentikan pencarian
+            if (current.equals(tujuan)) {
+                break;
             }
         }
-
-        printShortestPath(distances, previous, startIndex, endIndex);
-    }
-
-    private int getMinimumVertex(int[] distances, boolean[] visited) {
-        int minDistance = Integer.MAX_VALUE;
-        int minVertex = -1;
-
-        for (int i = 0; i < vertexCount; i++) {
-            if (!visited[i] && distances[i] < minDistance) {
-                minDistance = distances[i];
-                minVertex = i;
+    
+        // Menampilkan hasil jarak ke tempat tujuan
+        if (tujuan.jarak == Double.POSITIVE_INFINITY) {
+            System.out.println("Jarak ke " + tujuan.namaTempat + " tidak dapat dijangkau.");
+        } else {
+            System.out.println("Jarak terpendek ke " + tujuan.namaTempat + " adalah " + tujuan.jarak);
+    
+            // Menampilkan jalur yang dilalui untuk mencapai tujuan
+            System.out.print("Tempat-tempat yang dilalui: ");
+            
+            // Mulai dari tempat tujuan dan berjalan mundur
+            Tempat current = tujuan;
+            Jalur jalurCurrent = listJalur.head;
+            StringBuilder path = new StringBuilder();
+    
+            while (current != null) {
+                path.insert(0, current.namaTempat); // Menambahkan tempat ke jalur
+                current = current.prev; // Pindah ke tempat sebelumnya
+                if (current != null) {
+                    if(jalurCurrent.isDirected) path.insert(0, " -> "); // Menambahkan pemisah antar tempat
+                    else path.insert(0, " -- ");
+                }
             }
+    
+            // Menampilkan jalur yang dilalui
+            System.out.println(path);
         }
-        return minVertex;
     }
-
-    private void printShortestPath(int[] distances, int[] previous, int startIndex, int endIndex) {
-        if (distances[endIndex] == Integer.MAX_VALUE) {
-            System.out.println("Tidak ada jalur dari " + vertexNames[startIndex] + " ke " + vertexNames[endIndex]);
-            return;
+    
+    public void resetGraph() {
+        // Mereset semua tempat
+        Tempat currentTempat = listTempat.head;
+        while (currentTempat != null) {
+            currentTempat.jarak = Double.POSITIVE_INFINITY;  // Reset jarak
+            currentTempat.visited = false;  // Reset status visited
+            currentTempat.prev = null;  // Reset tempat sebelumnya
+            currentTempat = currentTempat.next;
         }
-
-        System.out.println("Jarak terpendek dari " + vertexNames[startIndex] + " ke " + vertexNames[endIndex] + ": " + distances[endIndex]);
-        System.out.print("Jalur: ");
-        printPath(previous, endIndex);
-        System.out.println();
     }
-
-    private void printPath(int[] previous, int vertexIndex) {
-        if (vertexIndex == -1) {
-            return;
-        }
-        printPath(previous, previous[vertexIndex]);
-        System.out.print(vertexNames[vertexIndex] + " ");
-    }
+    
 }
+

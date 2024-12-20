@@ -1,24 +1,23 @@
 public class ListTiket {
     Tiket head;
     ListKendaraan listKendaraan;
-    ListTempat listTempat;
+    Graph graph;
 
-    public ListTiket(ListKendaraan listKendaraan, ListTempat listTempat) {
+    public ListTiket(ListKendaraan listKendaraan, ListTempat listTempat, Graph graph) {
         this.listKendaraan = listKendaraan;
-        this.listTempat = listTempat;
+        this.graph = graph;
         this.head = null;
     }
 
-    public void addTiket(String label, String tempatAsal, String tempatTujuan, double hargaTiket,
-            String jenisKendaraan) {
+    public void addTiket(String label, String tempatAsal, String tempatTujuan, double hargaTiket, String jenisKendaraan) {
         if (jenisKendaraan == null || tempatAsal == null || tempatTujuan == null) {
             System.out.println("Informasi tidak lengkap.");
             return;
         }
 
         Kendaraan kendaraan = listKendaraan.searchKendaraan(jenisKendaraan);
-        Tempat asal = listTempat.searchTempat(tempatAsal);
-        Tempat tujuan = listTempat.searchTempat(tempatTujuan);
+        Tempat asal = graph.listTempat.searchTempat(tempatAsal);
+        Tempat tujuan = graph.listTempat.searchTempat(tempatTujuan);
 
         if (kendaraan == null) {
             System.out.println("Kendaraan tidak valid.");

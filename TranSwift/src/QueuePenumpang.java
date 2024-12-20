@@ -22,7 +22,6 @@ public class QueuePenumpang {
             Tiket tiket = listTiket.searchTiket(labelTiket);
 
             if (tiket == null) {
-               // System.out.println("Tiket dengan label " + labelTiket + " tidak ditemukan.");
                return;
             }
 
@@ -48,25 +47,36 @@ public class QueuePenumpang {
       System.out.println("--------------------------------------------------");
    }
 
-   public void enqueue(String nama, int uang, String namaBarang) {
-      Barang barangPenumpang = stackBarang.searchBarang(namaBarang);
+   public void enqueue(String nama, int uang, String namaBarang, String label) {
 
-      // if (barangPenumpang == null) {
-      //    System.out.println("Barang tidak ditemukan.");
-      //    return;
-      // }
-
+      Tiket tiketPenumpang = listTiket.searchTiket(label);
+      if (tiketPenumpang == null) {
+         System.out.println("Tiket dengan label '" + label + "' tidak ditemukan.");
+         return;
+      }
+   
+      Barang barangPenumpang = null;
+      if (namaBarang != null && !namaBarang.isEmpty()) {
+         barangPenumpang = stackBarang.searchBarang(namaBarang);
+         if (barangPenumpang == null) {
+            System.out.println("Barang dengan nama '" + namaBarang + "' tidak ditemukan.");
+            return;
+         }
+      }
+   
       Penumpang newPenumpang = new Penumpang(nama, uang, barangPenumpang);
-
+   
       if (front == null && rear == null) {
          front = newPenumpang;
       } else {
          rear.next = newPenumpang;
          newPenumpang.prev = rear;
       }
-
+   
       rear = newPenumpang;
-   }
+   
+      System.out.println(nama + " membeli tiket " + label);
+   }   
 
    public void dequeue() {
       if (front == null) {
@@ -89,13 +99,10 @@ public class QueuePenumpang {
    }
 
    public void displayPenumpang() {
-      System.out.println("\n--------------------------------------------------");
-      System.out.println("|                DAFTAR PENUMPANG                |");
-      System.out.println("--------------------------------------------------");
+      System.out.println("--------------------------------------------");
       if (front == null) {
          System.out.println("Antrian Kosong!");
-         System.out.println("--------------------------------------------------");
-         return;
+         System.out.println("--------------------------------------------");
       } else {
          Penumpang temp = front;
          while (temp != null) {
@@ -106,9 +113,8 @@ public class QueuePenumpang {
                System.out.println("Barang: Tidak ada");
             }
             temp = temp.next;
-            System.out.println("--------------------------------------------------");
+            System.out.println("--------------------------------------------");
          }
       }
-      System.out.println();
    }
 }

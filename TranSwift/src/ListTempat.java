@@ -26,6 +26,29 @@ public class ListTempat {
         return null;
     }
 
+    public void resetVisited() {
+        Tempat current = head;
+        while (current != null) {
+            current.visited = false;
+            current = current.next;
+        }
+    }
+
+    public Tempat getNextUnvisitedTempat() {
+        Tempat current = head;
+        Tempat minTempat = null;
+        double minJarak = Double.POSITIVE_INFINITY;
+
+        while (current != null) {
+            if (!current.visited && current.jarak < minJarak) {
+                minJarak = current.jarak;
+                minTempat = current;
+            }
+            current = current.next;
+        }
+        return minTempat;
+    }
+
     public void removeTempat(String namaTempat) {
         Tempat target = searchTempat(namaTempat);
         if (target == null) {
@@ -35,7 +58,6 @@ public class ListTempat {
 
         if (head == target) {
             head = head.next;
-            System.out.println(namaTempat + " dihapus.");
             return;
         }
 
@@ -46,7 +68,6 @@ public class ListTempat {
 
         if (current != null) {
             current.next = target.next;
-            System.out.println(namaTempat + " dihapus.");
         }
     }
 
