@@ -1,4 +1,5 @@
 import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
         ListKendaraan Kendaraan = new ListKendaraan();
@@ -187,13 +188,13 @@ public class Main {
         while (true) {
             clearScreen();
             System.out.println(
-            "████████╗██████╗  █████╗ ███╗   ██╗███████╗██╗    ██╗██╗███████╗████████╗\r\n" + //
-                    "╚══██╔══╝██╔══██╗██╔══██╗████╗  ██║██╔════╝██║    ██║██║██╔════╝╚══██╔══╝\r\n" + //
-                    "   ██║   ██████╔╝███████║██╔██╗ ██║███████╗██║ █╗ ██║██║█████╗     ██║   \r\n" + //
-                    "   ██║   ██╔══██╗██╔══██║██║╚██╗██║╚════██║██║███╗██║██║██╔══╝     ██║   \r\n" + //
-                    "   ██║   ██║  ██║██║  ██║██║ ╚████║███████║╚███╔███╔╝██║██║        ██║   \r\n" + //
-                    "   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝ ╚══╝╚══╝ ╚═╝╚═╝        ╚═╝   \r\n" + //
-                    "                                                                         ");
+                    "████████╗██████╗  █████╗ ███╗   ██╗███████╗██╗    ██╗██╗███████╗████████╗\r\n" + //
+                            "╚══██╔══╝██╔══██╗██╔══██╗████╗  ██║██╔════╝██║    ██║██║██╔════╝╚══██╔══╝\r\n" + //
+                            "   ██║   ██████╔╝███████║██╔██╗ ██║███████╗██║ █╗ ██║██║█████╗     ██║   \r\n" + //
+                            "   ██║   ██╔══██╗██╔══██║██║╚██╗██║╚════██║██║███╗██║██║██╔══╝     ██║   \r\n" + //
+                            "   ██║   ██║  ██║██║  ██║██║ ╚████║███████║╚███╔███╔╝██║██║        ██║   \r\n" + //
+                            "   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝ ╚══╝╚══╝ ╚═╝╚═╝        ╚═╝   \r\n" + //
+                            "                                                                         ");
             System.out.println("\n--- Menu Pelanggan ---");
             System.out.println("1. Beli tiket");
             System.out.println("2. Cek daftar kendaraan");
@@ -231,7 +232,7 @@ public class Main {
                 System.out.print("=> ");
                 String TempatTujuan = scanner.nextLine();
                 System.out.println();
-        
+
                 if (label.equalsIgnoreCase("Bus")) {
                     PenumpangBus.enqueue(namapenumpang, uang, namaBarang, beratBarang, label);
                     PenumpangBus.pesanTiket(namapenumpang, label, TempatAsal, TempatTujuan);
@@ -239,7 +240,7 @@ public class Main {
                     System.out.println("Press Enter to continue...");
                     scanner.nextLine();
                     System.out.println();
-                } else if (label.equalsIgnoreCase("Taksi")){
+                } else if (label.equalsIgnoreCase("Taksi")) {
                     PenumpangTaksi.enqueue(namapenumpang, uang, namaBarang, beratBarang, label);
                     PenumpangTaksi.pesanTiket(namapenumpang, label, TempatAsal, TempatTujuan);
                     PenumpangTaksi.displayPenumpang("Taksi");
@@ -248,62 +249,64 @@ public class Main {
                     System.out.println();
                 }
             } else if (pelangganOption == 2) {
-                    Kendaraan.displayKendaraan();
+                Kendaraan.displayKendaraan();
+                System.out.println("Press Enter to continue...");
+                scanner.nextLine();
+            } else if (pelangganOption == 3) {
+                System.out.println("Masukkan Tempat Asal Anda");
+                System.out.print("=> ");
+                String tempatAsal = scanner.nextLine();
+                System.out.println("Masukkan Tempat Tujuan Anda");
+                System.out.print("=> ");
+                String tempatTujuan = scanner.nextLine();
+                System.out.println("Pilih Jenis Kendaraan Anda");
+                System.out.print("=> ");
+                String kendaraan = scanner.nextLine();
+                if (kendaraan.equalsIgnoreCase("Bus")) {
+                    GraphBus.displayRoute(tempatAsal, tempatTujuan, true);
                     System.out.println("Press Enter to continue...");
                     scanner.nextLine();
-            } else if (pelangganOption == 3) {
-                    System.out.println("Masukkan Tempat Asal Anda");
-                    System.out.print("=> ");
-                    String tempatAsal = scanner.nextLine();
-                    System.out.println("Masukkan Tempat Tujuan Anda");
-                    System.out.print("=> ");
-                    String tempatTujuan = scanner.nextLine();
-                    System.out.println("Pilih Jenis Kendaraan Anda");
-                    System.out.print("=> ");
-                    String kendaraan = scanner.nextLine();
-                    if (kendaraan.equalsIgnoreCase("Bus")){
-                        GraphBus.displayRoute(tempatAsal, tempatTujuan, true);
-                        System.out.println("Press Enter to continue...");
-                        scanner.nextLine();
-                        System.out.println();
-                    } else if (kendaraan.equalsIgnoreCase("Taksi")){
-                        GraphTaksi.displayRoute(tempatAsal, tempatTujuan, false);
-                        System.out.println("Press Enter to continue...");
-                        scanner.nextLine();
-                        System.out.println();
-                    }
+                    System.out.println();
+                } else if (kendaraan.equalsIgnoreCase("Taksi")) {
+                    GraphTaksi.displayRoute(tempatAsal, tempatTujuan, false);
+                    System.out.println("Press Enter to continue...");
+                    scanner.nextLine();
+                    System.out.println();
+                }
             } else if (pelangganOption == 4) {
                 PenumpangBus.displayPenumpang("Bus");
                 PenumpangTaksi.displayPenumpang("Taksi");
                 System.out.println("Press Enter to continue...");
                 scanner.nextLine();
                 System.out.println();
-            } else if (pelangganOption == 5){
+            } else if (pelangganOption == 5) {
                 System.out.println("Pilih Jenis Tiket (Bus/Taksi)");
-                    System.out.print("=> ");
-                    String kendaraan = scanner.nextLine();
-                    if (kendaraan.equalsIgnoreCase("Bus")){
-                        TiketBus.displayAllTicket(kendaraan);
-                        System.out.println("Press Enter to continue...");
-                        scanner.nextLine();
-                        System.out.println();
-                    } else if (kendaraan.equalsIgnoreCase("Taksi")){
-                        TiketBus.displayAllTicket(kendaraan);
-                        System.out.println("Press Enter to continue...");
-                        scanner.nextLine();
-                        System.out.println();
-                    }
+                System.out.print("=> ");
+                String kendaraan = scanner.nextLine();
+                if (kendaraan.equalsIgnoreCase("Bus")) {
+                    TiketBus.displayAllTicket(kendaraan);
+                    System.out.println("Press Enter to continue...");
+                    scanner.nextLine();
+                    System.out.println();
+                } else if (kendaraan.equalsIgnoreCase("Taksi")) {
+                    TiketBus.displayAllTicket(kendaraan);
+                    System.out.println("Press Enter to continue...");
+                    scanner.nextLine();
+                    System.out.println();
+                }
             } else if (pelangganOption == 6) {
-                    System.out.println("Terima kasih, sampai jumpa!");
-                    break;
+                System.out.println("Terima kasih, sampai jumpa!");
+                break;
             } else {
                 System.out.println("Opsi tidak valid. Silakan pilih lagi.");
                 System.out.println("Press Enter to continue...");
                 scanner.nextLine();
             }
         }
+
+        scanner.close();
     }
-    
+
     public static void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
