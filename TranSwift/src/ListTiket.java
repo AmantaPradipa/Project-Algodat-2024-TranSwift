@@ -9,7 +9,8 @@ public class ListTiket {
         this.head = null;
     }
 
-    public void addTiket(String label, String tempatAsal, String tempatTujuan, double hargaTiket, String jenisKendaraan) {
+    public void addTiket(String label, String tempatAsal, String tempatTujuan, double hargaTiket,
+            String jenisKendaraan) {
         if (jenisKendaraan == null || tempatAsal == null || tempatTujuan == null) {
             System.out.println("Informasi tidak lengkap.");
             return;
@@ -56,12 +57,18 @@ public class ListTiket {
     public void removeTiket(String label) {
         Tiket target = searchTiket(label);
         if (target == null) {
+            System.out.println("----------------------------------------------------------");
+            System.out.println("|                    NOTIFIKASI TIKET                    |");
+            System.out.println("----------------------------------------------------------");
             System.out.println("Tiket dengan label " + label + " tidak ditemukan.");
             return;
         }
 
         if (head == target) {
             head = head.next;
+            System.out.println("----------------------------------------------------------");
+            System.out.println("|                    NOTIFIKASI TIKET                    |");
+            System.out.println("----------------------------------------------------------");
             System.out.println("Tiket dengan label " + label + " dihapus.");
             return;
         }
@@ -73,63 +80,54 @@ public class ListTiket {
 
         if (current != null) {
             current.next = target.next;
+            System.out.println("----------------------------------------------------------");
+            System.out.println("|                    NOTIFIKASI TIKET                    |");
+            System.out.println("----------------------------------------------------------");
             System.out.println("Tiket dengan label " + label + " dihapus.");
         }
     }
 
-    public void displayTiket() {
-        System.out.println("==================================================");
-        System.out.println("|                  DAFTAR TIKET                  |");
-        System.out.println("==================================================");
-        if (head == null) {
-            System.out.println("| Tidak ada tiket tersedia                   |");
-            System.out.println("==================================================");
-            return;
-        }
-
-        Tiket current = head;
-        while (current != null) {
-            System.out.println("| Label: " + current.label);
-            System.out.println("| Asal: " + current.tempatAsal.namaTempat);
-            System.out.println("| Tujuan: " + current.tempatTujuan.namaTempat);
-            System.out.println("| Harga Tiket: Rp" + current.hargaTiket);
-            System.out.println("| Kendaraan: " + current.kendaraan.jenis);
-            System.out.println("==================================================");
-            current = current.next;
-        }
-    }
-
-    public void displayAllTicket() {
+    public void displayAllTicket(String jenisKendaraan) {
+        // Kendaraan kendaraan = listKendaraan.searchKendaraan(jenisKendaraan);
         sortHargaTiket();
-        System.out.println("==================================================");
-        System.out.println("|              DAFTAR HARGA TIKET                |");
-        System.out.println("==================================================");
-    
+        System.out.println("==========================================================");
+        if (jenisKendaraan.equalsIgnoreCase("Bus"))
+            System.out.println("|                 DAFTAR HARGA TIKET BUS                 |");
+        else
+            System.out.println("|                DAFTAR HARGA TIKET TAKSI                |");
+        System.out.println("==========================================================");
+        System.out.printf("| %-17s | %-17s | %-14s |\n", "Asal", "Tujuan", "Harga");
+        System.out.println("|--------------------------------------------------------|");
+
         if (head == null) {
-            System.out.println("| Tidak ada tiket tersedia                     |");
-            System.out.println("==================================================");
+            System.out.println("|                Tidak ada tiket tersedia                |");
+            System.out.println("==========================================================");
             return;
         }
-    
+
         Tiket current = head;
         while (current != null) {
             // Menggunakan Dijkstra untuk mendapatkan jalur terpendek
-            double hargaTiketFinal = hitungHargaTiket(current.tempatAsal.namaTempat, current.tempatTujuan.namaTempat, current.hargaTiket);
-            System.out.println("~ " + current.tempatAsal.namaTempat + " -> " + current.tempatTujuan.namaTempat + ", Harga Tiket: Rp" + hargaTiketFinal);
+            double hargaTiketFinal = hitungHargaTiket(current.tempatAsal.namaTempat, current.tempatTujuan.namaTempat,
+                    current.hargaTiket);
+            System.out.printf("| %-17s | %-17s | Rp%-12.0f |\n",
+                    current.tempatAsal.namaTempat,
+                    current.tempatTujuan.namaTempat,
+                    hargaTiketFinal);
             current = current.next;
         }
-        System.out.println("==================================================");
+        System.out.println("==========================================================");
     }
-    
+
     public double hitungHargaTiket(String tempatAsal, String tempatTujuan, double hargaTiket) {
         graph.dijkstra(tempatAsal, tempatTujuan, true); // Jalankan Dijkstra untuk menghitung jarak
-        
+
         Tempat asal = graph.listTempat.searchTempat(tempatAsal);
         Tempat tujuan = graph.listTempat.searchTempat(tempatTujuan);
         if (tujuan == null || tujuan.jarak == Double.POSITIVE_INFINITY) {
             return hargaTiket;
         }
-    
+
         double jarakTempat = graph.listJalur.searchJalur(asal.namaTempat, tujuan.namaTempat).jarak;
 
         Tempat current = tujuan;
@@ -137,47 +135,49 @@ public class ListTiket {
             jarakTempat += graph.listJalur.searchJalur(current.prev.namaTempat, current.namaTempat).jarak;
             current = current.prev;
         }
-        
-        return hargaTiket + jarakTempat/2 * 100;
+
+        return hargaTiket + jarakTempat / 2 * 100;
     }
 
     public void sortHargaTiket() {
         if (head == null || head.next == null) {
             return;
         }
-    
+
         boolean swapped;
         do {
             swapped = false;
             Tiket current = head;
             while (current.next != null) {
                 // Hitung harga tiket final untuk kedua tiket
-                double hargaTiketFinalCurrent = hitungHargaTiket(current.tempatAsal.namaTempat, current.tempatTujuan.namaTempat, current.hargaTiket);
-                double hargaTiketFinalNext = hitungHargaTiket(current.next.tempatAsal.namaTempat, current.next.tempatTujuan.namaTempat, current.next.hargaTiket);
-    
+                double hargaTiketFinalCurrent = hitungHargaTiket(current.tempatAsal.namaTempat,
+                        current.tempatTujuan.namaTempat, current.hargaTiket);
+                double hargaTiketFinalNext = hitungHargaTiket(current.next.tempatAsal.namaTempat,
+                        current.next.tempatTujuan.namaTempat, current.next.hargaTiket);
+
                 // Bandingkan harga tiket final dua tiket berturut-turut
                 if (hargaTiketFinalCurrent > hargaTiketFinalNext) {
                     // Tukar tempat mereka jika harga tiket final dalam urutan yang salah
                     double tempHarga = current.hargaTiket;
                     current.hargaTiket = current.next.hargaTiket;
                     current.next.hargaTiket = tempHarga;
-    
+
                     String tempLabel = current.label;
                     current.label = current.next.label;
                     current.next.label = tempLabel;
-    
+
                     Tempat tempAsal = current.tempatAsal;
                     current.tempatAsal = current.next.tempatAsal;
                     current.next.tempatAsal = tempAsal;
-    
+
                     Tempat tempTujuan = current.tempatTujuan;
                     current.tempatTujuan = current.next.tempatTujuan;
                     current.next.tempatTujuan = tempTujuan;
-    
+
                     Kendaraan tempKendaraan = current.kendaraan;
                     current.kendaraan = current.next.kendaraan;
                     current.next.kendaraan = tempKendaraan;
-    
+
                     swapped = true;
                 }
                 current = current.next;

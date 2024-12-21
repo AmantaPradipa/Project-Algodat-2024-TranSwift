@@ -15,10 +15,10 @@ public class QueuePenumpang {
    }
 
    public void pesanTiket(String namaPenumpang, String labelTiket, String tempatAsal, String tempatTujuan) {
-      Tempat asal = graph.listTempat.searchTempat(tempatAsal);
-      Tempat tujuan = graph.listTempat.searchTempat(tempatTujuan);
+      // Tempat asal = graph.listTempat.searchTempat(tempatAsal);
+      // Tempat tujuan = graph.listTempat.searchTempat(tempatTujuan);
       if (front == null) {
-         System.out.println("Tidak ada penumpang dalam antrean.");
+         // System.out.println("Tidak ada penumpang dalam antrean.");
          return;
       }
 
@@ -35,51 +35,57 @@ public class QueuePenumpang {
             if (currentPenumpang.uang >= hargaTiket) {
                currentPenumpang.uang -= hargaTiket;
 
-               System.out.println("--------------------------------------------------");
-               System.out.println("|                NOTIFIKASI TIKET                |");
-               System.out.println("--------------------------------------------------");
-               System.out.println(namaPenumpang + " berhasil memesan tiket dengan label " + labelTiket);
-               System.out.println("Sisa uang: Rp" + currentPenumpang.uang);
-               System.out.println("--------------------------------------------------\n");
+               System.out.println("----------------------------------------------------------");
+               System.out.println("|                    NOTIFIKASI TIKET                    |");
+               System.out.println("----------------------------------------------------------");
+               System.out.println(" " + namaPenumpang + " berhasil memesan tiket " + labelTiket + " "
+                     + tempatAsal + " ke " + tempatTujuan);
+               System.out.println(" Sisa uang: Rp" + currentPenumpang.uang);
+               System.out.println("----------------------------------------------------------\n");
             } else {
-               System.out.println("Uang penumpang " + namaPenumpang + " tidak mencukupi untuk membeli tiket.");
-               System.out.println("--------------------------------------------------");
+               System.out.println("----------------------------------------------------------");
+               System.out.println("|                    NOTIFIKASI TIKET                    |");
+               System.out.println("----------------------------------------------------------");
+               System.out.println(" Uang penumpang " + namaPenumpang + " tidak mencukupi untuk membeli tiket.");
+               System.out.println("----------------------------------------------------------\n");
             }
             return;
          }
          currentPenumpang = currentPenumpang.next;
       }
 
-      System.out.println("Penumpang dengan nama '" + namaPenumpang + "' tidak ditemukan.");
-      System.out.println("--------------------------------------------------");
+      System.out.println(" Penumpang dengan nama '" + namaPenumpang + "' tidak ditemukan.");
+      System.out.println("----------------------------------------------------------");
    }
 
-   public void isiBarang(String namaPenumpang, String namaBarang, double beratBarang) {
-      // Cari penumpang berdasarkan nama
+   private void isiBarang(String namaPenumpang, String namaBarang, double beratBarang) {
       Penumpang penumpang = findPenumpangByNama(namaPenumpang);
       if (penumpang == null) {
          return;
       }
 
       if (namaBarang == null || namaBarang.isEmpty()) {
-         System.out.println("Nama barang tidak valid.");
          return;
       }
 
-      // Cek apakah barang sudah ada di StackBarang
+      // Cari barang di StackBarang
       Barang barangPenumpang = stackBarang.searchBarang(namaBarang);
       if (barangPenumpang == null) {
-          // Jika barang belum ada, buat barang baru
+         // Buat barang baru jika tidak ditemukan
          barangPenumpang = new Barang(namaBarang, beratBarang);
          stackBarang.push(namaBarang, beratBarang);
-         System.out.println(namaBarang + " milik " + namaPenumpang +  " berhasil ditambahkan ke dalam bagasi.");
+         System.out.println(namaBarang + " milik " + namaPenumpang + "\nberhasil ditambahkan ke dalam bagasi.");
+      } else {
+         // Jika barang sudah ada, perbarui beratnya
+         barangPenumpang.beratBarang = beratBarang;
+         System.out.println(namaBarang + " milik " + namaPenumpang + "\nberhasil ditambahkan ke dalam bagasi.");
       }
 
-      // Tambahkan barang ke dalam penumpang
+      // Hubungkan barang ke penumpang
       penumpang.barang = barangPenumpang;
    }
 
-  // Fungsi untuk mencari penumpang berdasarkan nama
+   // Fungsi untuk mencari penumpang berdasarkan nama
    private Penumpang findPenumpangByNama(String nama) {
       Penumpang currentPenumpang = front;
       while (currentPenumpang != null) {
@@ -91,7 +97,8 @@ public class QueuePenumpang {
       return null; // Jika penumpang tidak ditemukan
    }
 
-   public void enqueue(String nama, int uang, String namaBarang, String label, String jenisKendaraan) {
+   public void enqueue(String nama, int uang, String namaBarang, double beratBarang, String label,
+         String jenisKendaraan) {
       // Mencari tiket dan kendaraan
       Tiket tiketPenumpang = listTiket.searchTiket(label);
       Kendaraan kendaraan = listKendaraan.searchKendaraan(jenisKendaraan);
@@ -117,13 +124,15 @@ public class QueuePenumpang {
       if (namaBarang != null && !namaBarang.isEmpty()) {
          barangPenumpang = stackBarang.searchBarang(namaBarang);
          if (barangPenumpang == null) {
-              // Menambahkan barang jika belum ada
-              barangPenumpang = new Barang(namaBarang, 0); // Asumsi berat barang default 0
+            // Menambahkan barang jika belum ada
+            barangPenumpang = new Barang(namaBarang, beratBarang); // Gunakan beratBarang yang diberikan
+            stackBarang.push(namaBarang, beratBarang); // Masukkan barang ke dalam stack barang
          }
 
-          // Periksa kapasitas barang di kendaraan
+         // Periksa kapasitas barang di kendaraan
          if (!kendaraan.tambahBarang(barangPenumpang.beratBarang)) {
-            System.out.println("Kendaraan " + jenisKendaraan + " tidak memiliki kapasitas cukup untuk membawa barang.");
+            System.out
+                  .println("\t  Kapasitas bagasi " + jenisKendaraan + " sudah penuh\n\t        gagal menambah barang");
             return;
          }
       }
@@ -142,7 +151,7 @@ public class QueuePenumpang {
 
       // Isi barang setelah penumpang terdaftar
       if (namaBarang != null && !namaBarang.isEmpty()) {
-          isiBarang(nama, namaBarang, 0);  // Di sini berat barang bisa ditambahkan lebih lanjut jika perlu
+         isiBarang(nama, namaBarang, beratBarang); // Di sini berat barang akan ditambahkan ke penumpang
       }
    }
 
@@ -167,22 +176,31 @@ public class QueuePenumpang {
    }
 
    public void displayPenumpang() {
-      System.out.println("--------------------------------------------");
+      System.out.println("==========================================================");
+      System.out.println("|                  DAFTAR ANTRIAN PENUMPANG              |");
+      System.out.println("==========================================================");
       if (front == null) {
-         System.out.println("Antrian Kosong!");
-         System.out.println("--------------------------------------------");
+         System.out.println("|                 Antrian Kosong!                  |");
+         System.out.println("==========================================================");
       } else {
+         System.out.printf("| %-12s | %-12s | %-24s |\n", "Nama", "Cash (Rp)", "Barang (Berat)");
+         System.out.println("----------------------------------------------------------");
+
          Penumpang temp = front;
          while (temp != null) {
-            System.out.println("Nama: " + temp.nama + ", Cash: Rp" + temp.uang);
-            if (temp.barang != null) {
-               System.out.println("Barang: " + temp.barang.namaBarang + " (" + temp.barang.beratBarang + " kg)");
-            } else {
-               System.out.println("Barang: Tidak ada");
-            }
+            String barangInfo = temp.barang != null
+                  ? temp.barang.namaBarang + " (" + temp.barang.beratBarang + " kg)"
+                  : "Tidak ada";
+
+            System.out.printf("| %-12s | Rp%-10d | %-24s |\n",
+                  temp.nama,
+                  temp.uang, // `uang` sekarang berupa int
+                  barangInfo);
+
             temp = temp.next;
-            System.out.println("--------------------------------------------");
          }
+         System.out.println("==========================================================");
       }
    }
+
 }
