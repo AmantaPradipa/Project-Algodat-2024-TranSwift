@@ -1,3 +1,4 @@
+import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         ListKendaraan Kendaraan = new ListKendaraan();
@@ -9,10 +10,9 @@ public class Main {
         ListTiket TiketTaksi = new ListTiket(Kendaraan, Tempat, Taksi);
         QueuePenumpang PenumpangBus = new QueuePenumpang(Barang, TiketBus);
         QueuePenumpang PenumpangTaksi = new QueuePenumpang(Barang, TiketTaksi);
-
+        Scanner scanner = new Scanner(System.in);
         Kendaraan.addKendaraan("Bus", true, 30, 200);
         Kendaraan.addKendaraan("Taksi", false, 4, 50);
-        Kendaraan.displayKendaraan();
 
         Bus.addVertex("Tokyo");
         Bus.addVertex("Kyoto");
@@ -70,7 +70,6 @@ public class Main {
         Bus.addEdge("Nara", "Sapporo", 460, true);
         Bus.addEdge("Sendai", "Kobe", 380, true);
         Bus.addEdge("Kyoto", "Hakone", 300, true);
-        Bus.displayEdges();
 
         Taksi.addEdge("Tokyo", "Yokohama", 50, false);
         Taksi.addEdge("Tokyo", "Nagoya", 300, false);
@@ -112,16 +111,103 @@ public class Main {
         Taksi.addEdge("Osaka", "Sendai", 400, false);
         Taksi.addEdge("Kobe", "Sapporo", 500, false);
         Taksi.addEdge("Kobe", "Sendai", 380, false);
-        Taksi.displayEdges();
 
-        Bus.dijkstra("Nagoya", "Kobe", true);
-        Bus.resetGraph();
-        Bus.dijkstra("Tokyo", "Sapporo", true);
-        Taksi.dijkstra("Tokyo", "Sapporo", false);
+        while (true) {
+            System.out.println("-------------WELCOME TO TRANSWIFT---------------");
+            System.out.println("Masuk sebagai:");
+            System.out.println("1. Pelanggan");
+            System.out.println("2. Pegawai");
+            System.out.print("Pilih opsi: ");
+            int userType = scanner.nextInt();
+            
+            if (userType == 1) {
+                // Pelanggan menu
+                while (true) {
+                    System.out.println("-------------WELCOME TO TRANSWIFT OUR BELOVED PELANGGAN---------------");
+                    System.out.println("\n--- Menu Pelanggan ---");
+                    System.out.println("1. Beli tiket");
+                    System.out.println("2. Cek daftar kendaraan");
+                    System.out.println("3. Cek rute");
+                    System.out.println("4. Keluar");
+                    System.out.print("Pilih opsi: ");
+                    int pelangganOption = scanner.nextInt();
+                    scanner.nextLine();
+                    if (pelangganOption == 1) {
+                        // Beli tiket
+                        System.out.println("Fitur beli tiket...");
+                        System.out.println("Masukkan Nama Anda");
+                        String namapenumpang = scanner.nextLine();
+                        System.out.println("Masukkan Jumlah Uang Anda");
+                        int Uang = scanner.nextInt();
+                        scanner.nextLine();
+                        System.out.println("Masukkan Nama Barang Anda");
+                        String namaBarang = scanner.nextLine();
+                        System.out.println("Masukkan Berat Barang Anda");
+                        int beratBarang = scanner.nextInt();
+                        scanner.nextLine();
+                        System.out.println("Masukkan Label");
+                        String label = scanner.nextLine();
+                        Barang b = new Barang(namaBarang,beratBarang);
+                        Penumpang p = new Penumpang(namapenumpang,Uang,b);
+                        PenumpangBus.enqueue(namapenumpang, Uang, namaBarang, label);
 
-        TiketBus.addTiket("Bus", "Tokyo", "Sapporo", 100000, "Bus");
-
-        Barang.push("Koper", 20);
-        PenumpangBus.enqueue("Kevin", 200000, "Koper", "Bus");
+                        
+                    } else if (pelangganOption == 2) {
+                        // Cek daftar kendaraan
+                        System.out.println("Fitur cek daftar kendaraan...");
+                        // Add your logic for checking vehicles here
+                    } else if (pelangganOption == 3) {
+                        // Cek rute
+                        System.out.println("Fitur cek rute...");
+                        // Add your logic for checking routes here
+                    } else if (pelangganOption == 4) {
+                        // Keluar
+                        System.out.println("Terima kasih, sampai jumpa!");
+                        break; // Exit to main menu
+                    } else {
+                        System.out.println("Opsi tidak valid. Silakan pilih lagi.");
+                    }
+                }
+            } else if (userType == 2) {
+                // Pegawai menu
+                while (true) {
+                    System.out.println("-------------WELCOME TO TRANSWIFT OUR BELOVED PEGAWAI---------------");
+                    System.out.println("\n--- Menu Pegawai ---");
+                    System.out.println("1. Cek daftar penumpang");
+                    System.out.println("2. Cek daftar kendaraan");
+                    System.out.println("3. Cek bagasi");
+                    System.out.println("4. Cek tiket");
+                    System.out.println("5. Keluar");
+                    System.out.print("Pilih opsi: ");
+                    int pegawaiOption = scanner.nextInt();
+                    
+                    if (pegawaiOption == 1) {
+                        // Cek daftar penumpang
+                        System.out.println("Fitur cek daftar penumpang...");
+                        // Add your logic for checking passengers here
+                    } else if (pegawaiOption == 2) {
+                        // Cek daftar kendaraan
+                        System.out.println("Fitur cek daftar kendaraan...");
+                        // Add your logic for checking vehicles here
+                    } else if (pegawaiOption == 3) {
+                        // Cek bagasi
+                        System.out.println("Fitur cek bagasi...");
+                        // Add your logic for checking luggage here
+                    } else if (pegawaiOption == 4) {
+                        // Cek tiket
+                        System.out.println("Fitur cek tiket...");
+                        // Add your logic for checking tickets here
+                    } else if (pegawaiOption == 5) {
+                        // Keluar
+                        System.out.println("Terima kasih, sampai jumpa!");
+                        break; // Exit to main menu
+                    } else {
+                        System.out.println("Opsi tidak valid. Silakan pilih lagi.");
+                    }
+                }
+            } else {
+                System.out.println("Opsi tidak valid. Silakan pilih lagi.");
+            }
+        }
     }
 }
