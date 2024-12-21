@@ -22,17 +22,6 @@ public class ListJalur {
         }
     }
 
-    public Jalur getJalur(Tempat tempatAsal, Tempat tempatTujuan) {
-        Jalur current = head;
-        while (current != null) {
-            if (current.tempatAsal.equals(tempatAsal) && current.tempatTujuan.equals(tempatTujuan)) {
-                return current;
-            }
-            current = current.next;
-        }
-        return null;
-    }
-
     public Jalur searchJalur(String tempatAsal, String tempatTujuan) {
         Tempat asal = listTempat.searchTempat(tempatAsal);
         Tempat tujuan = listTempat.searchTempat(tempatTujuan);

@@ -88,7 +88,6 @@ public class ListTiket {
     }
 
     public void displayAllTicket(String jenisKendaraan) {
-        // Kendaraan kendaraan = listKendaraan.searchKendaraan(jenisKendaraan);
         sortHargaTiket();
         System.out.println("==========================================================");
         if (jenisKendaraan.equalsIgnoreCase("Bus"))

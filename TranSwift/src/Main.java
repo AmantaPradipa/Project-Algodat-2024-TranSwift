@@ -233,15 +233,15 @@ public class Main {
                 System.out.println();
         
                 if (label.equalsIgnoreCase("Bus")) {
-                    PenumpangBus.pesanTiket(namapenumpang, label, TempatAsal, TempatTujuan);
                     PenumpangBus.enqueue(namapenumpang, uang, namaBarang, beratBarang, label);
+                    PenumpangBus.pesanTiket(namapenumpang, label, TempatAsal, TempatTujuan);
                     PenumpangBus.displayPenumpang("Bus");
                     System.out.println("Press Enter to continue...");
                     scanner.nextLine();
                     System.out.println();
                 } else if (label.equalsIgnoreCase("Taksi")){
-                    PenumpangTaksi.pesanTiket(namapenumpang, label, TempatAsal, TempatTujuan);
                     PenumpangTaksi.enqueue(namapenumpang, uang, namaBarang, beratBarang, label);
+                    PenumpangTaksi.pesanTiket(namapenumpang, label, TempatAsal, TempatTujuan);
                     PenumpangTaksi.displayPenumpang("Taksi");
                     System.out.println("Press Enter to continue...");
                     scanner.nextLine();
@@ -298,11 +298,12 @@ public class Main {
                     break;
             } else {
                 System.out.println("Opsi tidak valid. Silakan pilih lagi.");
+                System.out.println("Press Enter to continue...");
+                scanner.nextLine();
             }
         }
     }
     public static void clearScreen() {
-        // ANSI escape code untuk membersihkan layar
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
