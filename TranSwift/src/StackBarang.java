@@ -30,8 +30,6 @@ public class StackBarang {
          }
          temp = temp.next;
       }
-
-      System.out.println("Barang dengan nama '" + namaBarang + "' tidak ditemukan.");
       return null;
    }
 

@@ -67,84 +67,134 @@ public class Graph {
         Tempat tujuan = listTempat.searchTempat(tempatTujuan);
     
         if (asal == null) {
-            System.out.println("Tempat asal tidak ditemukan!");
             return;
         }
         if (tujuan == null) {
-            System.out.println("Tempat tujuan tidak ditemukan!");
             return;
         }
     
-        // Inisialisasi jarak tempat asal
         asal.jarak = 0;
         listTempat.resetVisited();
     
         while (true) {
-            // Ambil tempat dengan jarak terpendek yang belum dikunjungi
             Tempat current = listTempat.getNextUnvisitedTempat();
             if (current == null) {
-                break; // Tidak ada tempat lagi yang bisa dikunjungi
+                break;
             }
     
             current.visited = true;
     
-            // Perbarui jarak untuk tempat yang terhubung dengan tempat saat ini
             Jalur jalur = listJalur.head;
             while (jalur != null) {
                 if (jalur.tempatAsal.equals(current)) {
                     Tempat tujuanTemp = jalur.tempatTujuan;
                     if (!tujuanTemp.visited && current.jarak + jalur.jarak < tujuanTemp.jarak) {
                         tujuanTemp.jarak = current.jarak + jalur.jarak;
-                        tujuanTemp.prev = current; // Catat tempat sebelumnya
+                        tujuanTemp.prev = current;
                     }
                 }
                 jalur = jalur.next;
             }
     
-            // Jika tujuan telah ditemukan, hentikan pencarian
             if (current.equals(tujuan)) {
                 break;
             }
         }
-    
-        // Menampilkan hasil jarak ke tempat tujuan
-        if (tujuan.jarak == Double.POSITIVE_INFINITY) {
-            System.out.println("Jarak ke " + tujuan.namaTempat + " tidak dapat dijangkau.");
-        } else {
-            System.out.println("Jarak terpendek ke " + tujuan.namaTempat + " adalah " + tujuan.jarak);
-    
-            // Menampilkan jalur yang dilalui untuk mencapai tujuan
-            System.out.print("Tempat-tempat yang dilalui: ");
-            
-            // Mulai dari tempat tujuan dan berjalan mundur
-            Tempat current = tujuan;
-            Jalur jalurCurrent = listJalur.head;
-            StringBuilder path = new StringBuilder();
-    
-            while (current != null) {
-                path.insert(0, current.namaTempat); // Menambahkan tempat ke jalur
-                current = current.prev; // Pindah ke tempat sebelumnya
-                if (current != null) {
-                    if(jalurCurrent.isDirected) path.insert(0, " -> "); // Menambahkan pemisah antar tempat
-                    else path.insert(0, " -- ");
+    }
+
+    public void sortJarak(String tempatAsal) {
+        Tempat asal = listTempat.searchTempat(tempatAsal);
+        if (asal == null) {
+            System.out.println("Tempat asal tidak ditemukan!");
+            return;
+        }
+
+        dijkstra(tempatAsal, null, true); // Jalankan Dijkstra untuk menghitung jarak
+
+        // Membuat linked list sementara untuk menyimpan semua tempat dan jarak
+        NodeSementara tempListHead = null; // Head untuk linked list sementara
+        Tempat current = listTempat.head;
+        while (current != null) {
+            NodeSementara newNode = new NodeSementara(current);
+            if (tempListHead == null) {
+                tempListHead = newNode;
+            } else {
+                NodeSementara temp = tempListHead;
+                while (temp.next != null) {
+                    temp = temp.next;
                 }
+                temp.next = newNode;
             }
-    
-            // Menampilkan jalur yang dilalui
-            System.out.println(path);
+            current = current.next;
+        }
+
+        // Sorting linked list berdasarkan jarak menggunakan bubble sort
+        boolean swapped;
+        do {
+            swapped = false;
+            NodeSementara temp = tempListHead;
+            while (temp != null && temp.next != null) {
+                if (temp.tempat.jarak > temp.next.tempat.jarak) {
+                    // Swap tempat
+                    Tempat tempPlace = temp.tempat;
+                    temp.tempat = temp.next.tempat;
+                    temp.next.tempat = tempPlace;
+                    swapped = true;
+                }
+                temp = temp.next;
+            }
+        } while (swapped);
+
+        // Menampilkan hasil setelah disorting
+        NodeSementara temp = tempListHead;
+        while (temp != null) {
+            Tempat tempat = temp.tempat;
+            if (tempat.jarak == Double.POSITIVE_INFINITY) {
+                System.out.println("Tempat: " + tempat.namaTempat + " tidak dapat dijangkau.");
+            } else {
+                displayPath(tempat);
+                System.out.print(", Jarak: " + tempat.jarak + " Km ");
+                System.out.println();
+            }
+            temp = temp.next;
         }
     }
+
+    // Linked list node untuk tempat, untuk digunakan dalam proses sorting
+    private class NodeSementara {
+        Tempat tempat;
+        NodeSementara next;
+
+        NodeSementara(Tempat tempat) {
+            this.tempat = tempat;
+            this.next = null;
+        }
+    }
+
+    private void displayPath(Tempat tujuan) {
+        Jalur jalurCurrent = listJalur.head;
+        StringBuilder path = new StringBuilder();
+        Tempat current = tujuan;
+    
+        while (current != null) {
+            path.insert(0, current.namaTempat);
+            current = current.prev;
+            if (current != null) {
+                if(jalurCurrent.isDirected) path.insert(0, " -> ");
+                else path.insert(0, " -- ");
+            }
+        }
+    
+        System.out.print(path);
+    }   
     
     public void resetGraph() {
-        // Mereset semua tempat
         Tempat currentTempat = listTempat.head;
         while (currentTempat != null) {
-            currentTempat.jarak = Double.POSITIVE_INFINITY;  // Reset jarak
-            currentTempat.visited = false;  // Reset status visited
-            currentTempat.prev = null;  // Reset tempat sebelumnya
+            currentTempat.jarak = Double.POSITIVE_INFINITY;
+            currentTempat.visited = false;
+            currentTempat.prev = null;
             currentTempat = currentTempat.next;
         }
     }
-    
 }
-
