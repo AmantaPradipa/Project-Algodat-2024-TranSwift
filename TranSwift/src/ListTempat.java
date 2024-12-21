@@ -22,7 +22,11 @@ public class ListTempat {
             }
             current = current.next;
         }
-        System.out.println(namaTempat + " tidak ditemukan.");
+        if (namaTempat == null) {
+            System.out.println("");
+        } else {
+            System.out.println(namaTempat + " tidak ditemukan.");
+        }
         return null;
     }
 
