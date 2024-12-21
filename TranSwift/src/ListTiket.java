@@ -182,6 +182,6 @@ public class ListTiket {
                 }
                 current = current.next;
             }
-        } while (swapped); // Jika ada pertukaran, lakukan iterasi lagi
+        } while (swapped);
     }
 }

@@ -15,10 +15,10 @@ public class QueuePenumpang {
    }
 
    public void pesanTiket(String namaPenumpang, String labelTiket, String tempatAsal, String tempatTujuan) {
-      // Tempat asal = graph.listTempat.searchTempat(tempatAsal);
-      // Tempat tujuan = graph.listTempat.searchTempat(tempatTujuan);
+      Tempat asal = graph.listTempat.searchTempat(tempatAsal);
+      Tempat tujuan = graph.listTempat.searchTempat(tempatTujuan);
       if (front == null) {
-         // System.out.println("Tidak ada penumpang dalam antrean.");
+         System.out.println("Tidak ada penumpang dalam antrean.");
          return;
       }
 
@@ -97,11 +97,9 @@ public class QueuePenumpang {
       return null; // Jika penumpang tidak ditemukan
    }
 
-   public void enqueue(String nama, int uang, String namaBarang, double beratBarang, String label,
-         String jenisKendaraan) {
-      // Mencari tiket dan kendaraan
+   public void enqueue(String nama, int uang, String namaBarang, double beratBarang, String label) {
       Tiket tiketPenumpang = listTiket.searchTiket(label);
-      Kendaraan kendaraan = listKendaraan.searchKendaraan(jenisKendaraan);
+      Kendaraan kendaraan = listKendaraan.searchKendaraan(label);
 
       if (tiketPenumpang == null) {
          System.out.println("Tiket dengan label '" + label + "' tidak ditemukan.");
@@ -109,13 +107,13 @@ public class QueuePenumpang {
       }
 
       if (kendaraan == null) {
-         System.out.println("Kendaraan dengan jenis '" + jenisKendaraan + "' tidak ditemukan.");
+         System.out.println("Kendaraan dengan jenis '" + label + "' tidak ditemukan.");
          return;
       }
 
       // Cek kapasitas kendaraan untuk penumpang
       if (!kendaraan.tambahPenumpang()) {
-         System.out.println("Kendaraan " + jenisKendaraan + " sudah penuh dengan penumpang.");
+         System.out.println("Kendaraan " + label + " sudah penuh dengan penumpang.");
          return;
       }
 
@@ -132,7 +130,7 @@ public class QueuePenumpang {
          // Periksa kapasitas barang di kendaraan
          if (!kendaraan.tambahBarang(barangPenumpang.beratBarang)) {
             System.out
-                  .println("\t  Kapasitas bagasi " + jenisKendaraan + " sudah penuh\n\t        gagal menambah barang");
+                  .println("\t  Kapasitas bagasi " + label + " sudah penuh\n\t        gagal menambah barang");
             return;
          }
       }
@@ -194,7 +192,7 @@ public class QueuePenumpang {
 
             System.out.printf("| %-12s | Rp%-10d | %-24s |\n",
                   temp.nama,
-                  temp.uang, // `uang` sekarang berupa int
+                  temp.uang,
                   barangInfo);
 
             temp = temp.next;
