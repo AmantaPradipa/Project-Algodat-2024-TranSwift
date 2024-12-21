@@ -556,8 +556,17 @@ public class Main {
         // PenumpangTaksi.enqueue("Kevin", 200000, null, "Taksi", "Taksi");
         // PenumpangTaksi.pesanTiket("Kevin", "Taksi", "Tokyo", "Nagoya");
 
+        Kendaraan.displayKendaraan();
+
         while (true) {
-            System.out.println("-------------WELCOME TO TRANSWIFT---------------");
+            System.out.println(
+                    "████████╗██████╗  █████╗ ███╗   ██╗███████╗██╗    ██╗██╗███████╗████████╗\r\n" + //
+                            "╚══██╔══╝██╔══██╗██╔══██╗████╗  ██║██╔════╝██║    ██║██║██╔════╝╚══██╔══╝\r\n" + //
+                            "   ██║   ██████╔╝███████║██╔██╗ ██║███████╗██║ █╗ ██║██║█████╗     ██║   \r\n" + //
+                            "   ██║   ██╔══██╗██╔══██║██║╚██╗██║╚════██║██║███╗██║██║██╔══╝     ██║   \r\n" + //
+                            "   ██║   ██║  ██║██║  ██║██║ ╚████║███████║╚███╔███╔╝██║██║        ██║   \r\n" + //
+                            "   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝ ╚══╝╚══╝ ╚═╝╚═╝        ╚═╝   \r\n" + //
+                            "                                                                         ");
             System.out.println("Masuk sebagai:");
             System.out.println("1. Pelanggan");
             System.out.println("2. Pegawai");
