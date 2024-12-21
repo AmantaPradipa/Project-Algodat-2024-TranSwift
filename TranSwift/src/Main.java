@@ -567,8 +567,15 @@ public class Main {
                         System.out.println("Masukkan Label");
                         String label = scanner.nextLine();
                         Barang b = new Barang(namaBarang, beratBarang);
+<<<<<<< HEAD
                         Penumpang p = new Penumpang(namapenumpang, Uang, b);
                         PenumpangBus.enqueue(namapenumpang, Uang, namaBarang, beratBarang, label);
+=======
+                        Penumpang p = new Penumpang(namapenumpng, uang, b);
+                        if (label == "Bus") {
+                            PenumpangBus.enqueue(namapenumpng, uang, namaBarang, beratBarang, label, label)
+                        }
+>>>>>>> 5774f2bc40f6b7ee4934a795b0be948317196f06
 
                         
                     } else if (pelangganOption == 2) {
