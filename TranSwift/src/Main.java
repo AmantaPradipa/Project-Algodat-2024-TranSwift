@@ -594,7 +594,7 @@ public class Main {
                         Barang b = new Barang(namaBarang, beratBarang);
                         Penumpang p = new Penumpang(namapenumpng, uang, b);
                         if (label == "Bus") {
-                            PenumpangBus.enqueue(namapenumpng, uang, namaBarang, beratBarang, label, label);
+                            PenumpangBus.enqueue(namapenumpng, uang, namaBarang, beratBarang, label, label)
                         }
 
                     } else if (pelangganOption == 2) {
