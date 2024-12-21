@@ -33,6 +33,7 @@ public class StackBarang {
       return null;
    }
 
+
    public void clearStack() {
       if (top == null) {
          return;
