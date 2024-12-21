@@ -102,6 +102,41 @@ public class Graph {
         }
     }
 
+    public void displayRoute(String tempatAsal, String tempatTujuan, boolean isDirected) {
+        dijkstra(tempatAsal, tempatTujuan, isDirected);
+    
+        Tempat asal = listTempat.searchTempat(tempatAsal);
+        Tempat tujuan = listTempat.searchTempat(tempatTujuan);
+    
+        if (asal == null) {
+            System.out.println("Tempat asal tidak ditemukan!");
+            return;
+        }
+    
+        if (tujuan == null) {
+            System.out.println("Tempat tujuan tidak ditemukan!");
+            return;
+        }
+    
+        if (tujuan.jarak == Double.POSITIVE_INFINITY) {
+            System.out.println("Jarak ke " + tujuan.namaTempat + " tidak dapat dijangkau.");
+        } else {
+            System.out.println("Jarak dari kota " + asal.namaTempat + " ke kota " + tujuan.namaTempat + " adalah " + tujuan.jarak + " Km");
+
+            StringBuilder path = new StringBuilder();
+            Tempat temp = tujuan;
+    
+            while (temp != null) {
+                path.insert(0, temp.namaTempat);
+                temp = temp.prev;
+                if (temp != null) {
+                    path.insert(0, isDirected ? " -> " : " -- ");
+                }
+            }
+            System.out.println("Rute kota adalah, " + path);
+        }
+    }
+
     public void sortJarak(String tempatAsal) {
         Tempat asal = listTempat.searchTempat(tempatAsal);
         if (asal == null) {

@@ -15,13 +15,6 @@ public class QueuePenumpang {
    }
 
    public void pesanTiket(String namaPenumpang, String labelTiket, String tempatAsal, String tempatTujuan) {
-      Tempat asal = graph.listTempat.searchTempat(tempatAsal);
-      Tempat tujuan = graph.listTempat.searchTempat(tempatTujuan);
-      if (front == null) {
-         System.out.println("Tidak ada penumpang dalam antrean.");
-         return;
-      }
-
       Penumpang currentPenumpang = front;
       while (currentPenumpang != null) {
          if (currentPenumpang.nama.equals(namaPenumpang)) {
@@ -53,9 +46,6 @@ public class QueuePenumpang {
          }
          currentPenumpang = currentPenumpang.next;
       }
-
-      System.out.println(" Penumpang dengan nama '" + namaPenumpang + "' tidak ditemukan.");
-      System.out.println("----------------------------------------------------------");
    }
 
    private void isiBarang(String namaPenumpang, String namaBarang, double beratBarang) {
@@ -75,10 +65,12 @@ public class QueuePenumpang {
          barangPenumpang = new Barang(namaBarang, beratBarang);
          stackBarang.push(namaBarang, beratBarang);
          System.out.println(namaBarang + " milik " + namaPenumpang + "\nberhasil ditambahkan ke dalam bagasi.");
+         System.out.println();
       } else {
          // Jika barang sudah ada, perbarui beratnya
          barangPenumpang.beratBarang = beratBarang;
          System.out.println(namaBarang + " milik " + namaPenumpang + "\nberhasil ditambahkan ke dalam bagasi.");
+         System.out.println();
       }
 
       // Hubungkan barang ke penumpang
@@ -173,12 +165,14 @@ public class QueuePenumpang {
       rear = null;
    }
 
-   public void displayPenumpang() {
+   public void displayPenumpang(String label) {
+      Kendaraan kendaraan = listKendaraan.searchKendaraan(label);
       System.out.println("==========================================================");
-      System.out.println("|                  DAFTAR ANTRIAN PENUMPANG              |");
+      if (kendaraan.jenis == "Bus") System.out.println("|                     DAFTAR ANTRIAN BUS                 |");
+      else System.out.println("|                    DAFTAR ANTRIAN TAKSI                |");
       System.out.println("==========================================================");
       if (front == null) {
-         System.out.println("|                 Antrian Kosong!                  |");
+         System.out.println("|                     Antrian Kosong!                    |");
          System.out.println("==========================================================");
       } else {
          System.out.printf("| %-12s | %-12s | %-24s |\n", "Nama", "Cash (Rp)", "Barang (Berat)");

@@ -51,22 +51,27 @@ public class ListKendaraan {
     }
 
     public void displayKendaraan() {
-        System.out.println("==================================================");
-        System.out.println("|                DAFTAR KENDARAAN                |");
-        System.out.println("==================================================");
+        System.out.println("==========================================================");
+        System.out.println("|                    DAFTAR KENDARAAN                    |");
+        System.out.println("==========================================================");
         if (head == null) {
-            System.out.println("| Tidak ada kendaraan tersedia                   |");
-            System.out.println("==================================================");
+            System.out.println("|              Tidak ada kendaraan tersedia              |");
+            System.out.println("==========================================================");
             return;
         }
 
+        // Menampilkan header dengan format yang rapi
+        System.out.printf("| %-12s | %-18s | %-18s |\n", "Jenis", "Max Penumpang", "Max Barang (kg)");
+        System.out.println("----------------------------------------------------------");
         Kendaraan current = head;
         while (current != null) {
-            System.out.println("| Jenis: " + current.jenis);
-            System.out.println("| Kapasitas Penumpang: " + current.kapasitasPenumpang + " Orang");
-            System.out.println("| Kapasitas Barang: " + current.kapasitasBarang + " kg");
-            System.out.println("==================================================");
+            // Menampilkan informasi kendaraan dengan format yang sesuai
+            System.out.printf("| %-12s | %-18d | %-18.2f |\n",
+                    current.jenis,
+                    current.kapasitasPenumpang,
+                    current.kapasitasBarang);
             current = current.next;
         }
+        System.out.println("==========================================================");
     }
 }
